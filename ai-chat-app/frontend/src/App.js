@@ -4,14 +4,26 @@ import "./App.css";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [reply, setReply] = useState("");
+  const [chats, setChats] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
-    const res = await axios.post("http://localhost:8000/echo", {
-      text: message,
-    });
-
-    setReply(res.data.reply);
+    setIsLoading(true);
+    if (!message) {
+      alert("Please enter a message.");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      const res = await axios.post("http://localhost:8000/echo", {
+        text: message,
+      });
+      setChats([...chats, `Client: ${message}`, res.data.reply.toUpperCase()]);
+      setMessage("");
+    } catch (error) {
+      alert(`There an error: ${error}`);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -21,9 +33,15 @@ function App() {
 
         <input value={message} onChange={(e) => setMessage(e.target.value)} />
 
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage} disabled={isLoading}>
+          Send
+        </button>
 
-        <p>{reply}</p>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div>{chats.map((chat) => <p>{chat}</p>)}</div>
+        )}
       </div>
     </div>
   );
