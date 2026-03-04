@@ -15,7 +15,7 @@ function App() {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:8000/echo", {
+      const res = await axios.post("http://localhost:8000/chat", {
         text: message,
       });
       setChats([...chats, `Client: ${message}`, res.data.reply.toUpperCase()]);
