@@ -21,17 +21,14 @@ app.add_middleware(
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-class Message(BaseModel):
-    text: str
+class ChatRequest(BaseModel):
+    messages: list
 
 @app.post("/chat")
-async def echo(message: Message):
+async def echo(request: ChatRequest):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful AI assistant"},
-            {"role": "user", "content": message.text}
-        ]
+        messages= request.messages
     )
 
     return {"reply": response.choices[0].message.content}

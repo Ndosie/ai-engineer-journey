@@ -4,7 +4,9 @@ import "./App.css";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([]);
+  const [chats, setChats] = useState([
+    { role: "system", content: "You are a helpful assistant" },
+  ]);
   const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = async () => {
@@ -15,10 +17,11 @@ function App() {
       return;
     }
     try {
+      const newChats = [...chats, { role: "user", content: message }];
       const res = await axios.post("http://localhost:8000/chat", {
-        text: message,
+        messages: newChats,
       });
-      setChats([...chats, `Client: ${message}`, res.data.reply.toUpperCase()]);
+      setChats([...newChats, { role: "assistant", content: res.data.reply }]);
       setMessage("");
     } catch (error) {
       alert(`There an error: ${error}`);
@@ -28,8 +31,8 @@ function App() {
 
   return (
     <div className="container">
-      <div>
-        <h1 className="App-header">Backend Test</h1>
+      <div className="contents">
+        <h1>AI Chat App</h1>
 
         <input value={message} onChange={(e) => setMessage(e.target.value)} />
 
@@ -40,7 +43,11 @@ function App() {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <div>{chats.map((chat) => <p>{chat}</p>)}</div>
+          <div>
+            {chats.map((chat) => (
+              <p>{chat.content}</p>
+            ))}
+          </div>
         )}
       </div>
     </div>
