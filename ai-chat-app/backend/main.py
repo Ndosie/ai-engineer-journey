@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from openai import OpenAI
@@ -26,9 +26,18 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 async def echo(request: ChatRequest):
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages= request.messages
-    )
+    try:
+        MAX_MESSAGES = 10
 
-    return {"reply": response.choices[0].message.content}
+        trimmed_messages = request.messages[-MAX_MESSAGES:]
+
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages= trimmed_messages,
+            max_tokens=200,
+            temperature=0.7
+        )
+
+        return {"reply": response.choices[0].message.content}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
