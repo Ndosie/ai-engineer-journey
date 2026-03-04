@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 5px;
+  align-self: center;
+}
+
+input,
+button,
+textarea {
+  padding: 8px;
+  font-size: medium;
+}
+
+p {
+  padding: 8px;
+  border: 1px solid grey;
+}
