@@ -25,7 +25,7 @@ class ChatRequest(BaseModel):
     messages: list
 
 @app.post("/chat")
-async def echo(request: ChatRequest):
+async def chat(request: ChatRequest):
     try:
         MAX_MESSAGES = 10
 
