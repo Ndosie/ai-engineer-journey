@@ -28,13 +28,12 @@ class SummaryRequest(BaseModel):
 @app.post("/summarize")
 async def summarize(request: SummaryRequest):
     try:
-        prompt = f"""
-        Summarize the following text in no more than {request.max_words} words.
-        Make it clear and consise.
-
-        Text: {request.text}
-        """
-
+        if len(request.text.strip()) == 0:
+            raise HTTPException(status_code=400, detail="Text cannot be empty.")
+        
+        if len(request.text) > 5000:
+            raise HTTPException(status_code=400, detail="Text is too long.")
+        
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages= [
@@ -48,11 +47,10 @@ async def summarize(request: SummaryRequest):
                     "role": "user", 
                     "content": (
                         f"Summarize the text below in no more than {request.max_words} words. \n\n"
-                        "Requirements:\n"
-                        "-Keep the core meaning.\n"
-                        "-Avoid repetition.\n"
-                        "-Do not add new information.\n"
-                        "-Use simple, clear language.\n\n"
+                        "Format:\n"
+                        "-Provide 3-5 bullet points.\n"
+                        "-Each bullet must be one sentence.\n"
+                        "-Do not exceed word limit.\n"
                         f"Text:\n{request.text}"
                     )
                 }
