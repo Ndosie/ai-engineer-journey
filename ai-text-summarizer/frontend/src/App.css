@@ -7,16 +7,27 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 700px;
   gap: 5px;
   align-self: center;
 }
 
+.format {
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+}
+
 input,
-button,
-textarea {
+button {
   padding: 8px;
   font-size: medium;
+}
+
+textarea {
+  padding: 8px;
+  font-size: large;
+  font-family: inherit;
 }
 
 p {

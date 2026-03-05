@@ -24,9 +24,23 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 class SummaryRequest(BaseModel):
     text: str
     max_words: int = 100
+    summary_style: str = "bullet"
+    summary_tone: str = "formal"
 
 @app.post("/summarize")
 async def summarize(request: SummaryRequest):
+    style_instruction = {
+        "bullet": "Provide the summary as 3-5 bullet points.",
+        "paragraph": "Provide the summary as one clear paragraph.",
+        "executive": "Provide an executive summary suitable for business leaders."
+    }
+
+    tone_instruction = {
+        "formal": "Use a proffesional formal tone.",
+        "casual": "Use a friendly conversational tone.",
+        "academic": "Use an academic analytical tone."
+    }
+
     try:
         if len(request.text.strip()) == 0:
             raise HTTPException(status_code=400, detail="Text cannot be empty.")
@@ -46,12 +60,13 @@ async def summarize(request: SummaryRequest):
                 {
                     "role": "user", 
                     "content": (
-                        f"Summarize the text below in no more than {request.max_words} words. \n\n"
-                        "Format:\n"
-                        "-Provide 3-5 bullet points.\n"
-                        "-Each bullet must be one sentence.\n"
-                        "-Do not exceed word limit.\n"
-                        f"Text:\n{request.text}"
+                        f"""Summarize the following text below in no more than {request.max_words} words. \n\n"
+
+                        {style_instruction.get(request.summary_style)}
+                        {tone_instruction.get(request.summary_tone)}
+                        
+                        Text: {request.text}
+                        """
                     )
                 }
             ],
