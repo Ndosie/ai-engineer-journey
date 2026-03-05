@@ -38,7 +38,7 @@ async def summarize(request: SummaryRequest):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages= [
-                {"role": "system", "content": "You are an expert summerizer."},
+                {"role": "system", "content": "You are an expert summarizer."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=300,
