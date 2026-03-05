@@ -1,3 +1,4 @@
 aienv
 .env
 _pycache_
+.vscode

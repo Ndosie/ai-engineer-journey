@@ -19,14 +19,8 @@ function App() {
 
   const summarizeText = async () => {
     setIsLoading(true);
-    if (
-      formData.text.split(" ").length < 100 ||
-      !formData.summary_style ||
-      !formData.summary_tone
-    ) {
-      alert(
-        "Please enter a text with more than 100 words and specify summary style and tone.",
-      );
+    if (formData.text.split(" ").length < 100) {
+      alert("Please enter a text with more than 100 words.");
       setIsLoading(false);
       return;
     }
@@ -35,10 +29,19 @@ function App() {
       const res = await axios.post("http://localhost:8000/summarize", {
         ...formData,
         max_words: formData.max_words ? Number(formData.max_words) : 100,
+        summary_style: formData.summary_style
+          ? formData.summary_style
+          : "bullet",
+        summary_tone: formData.summary_tone ? formData.summary_tone : "formal",
       });
 
       setSummary(res.data.summary);
-      setFormData((prevData) => ({ ...prevData, text: "", summary_style: "", summary_tone: "" }));
+      setFormData((prevData) => ({
+        ...prevData,
+        text: "",
+        summary_style: "",
+        summary_tone: "",
+      }));
     } catch (error) {
       alert(`There is an error: ${error}`);
     }
@@ -69,7 +72,7 @@ function App() {
             value={formData.summary_style}
             name="summary_style"
             onChange={handleChange}
-            placeholder="Summary style"
+            placeholder="Style default is bullet"
             list="styles"
             type="data"
           />
@@ -82,7 +85,7 @@ function App() {
             value={formData.summary_tone}
             name="summary_tone"
             onChange={handleChange}
-            placeholder="Summary tone"
+            placeholder="Tone default is formal"
             list="tones"
             type="data"
           />
@@ -98,7 +101,7 @@ function App() {
         {isLoading ? (
           <p>Loading....</p>
         ) : (
-          <p>{summary ? summary : "Summary will appear here!"}</p>
+          <pre>{summary ? summary : "Summary will appear here!"}</pre>
         )}
       </div>
     </div>

@@ -18,8 +18,9 @@
   justify-content: space-between;
 }
 
+button,
 input,
-button {
+pre {
   padding: 8px;
   font-size: medium;
 }
@@ -30,7 +31,17 @@ textarea {
   font-family: inherit;
 }
 
+pre,
 p {
   padding: 8px;
-  border: 1px solid grey;
+  border: 1px solid gray;
+  font-size: large;
+  font-family: inherit;
+}
+
+pre {
+  box-sizing: border-box;
+  width: inherit;
+  white-space: pre-wrap;
+  text-align: justify;
 }
