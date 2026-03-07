@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 5px;
+  align-self: center;
+}
+
+input,
+button,
+pre {
+  padding: 8px;
+  font-size: medium;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+pre {
+  border: 1px solid gray;
+  white-space: pre-wrap;
+}
