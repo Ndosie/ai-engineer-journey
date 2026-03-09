@@ -12,11 +12,7 @@ def process_pdf(file_path):
 
     chunks = chunk_text(text)
 
-    vectors = []
-
-    for chunk in chunks:
-        embedding = create_embedding(chunk)
-        vectors.append(embedding)
+    vectors = create_embedding(chunks)
     
     create_index(vectors, chunks)
 
