@@ -1,7 +1,7 @@
 from pdf_reader import read_pdf
 from text_chunker import chunk_text
 from embeddings import create_embedding
-from vector_store import create_index, search
+from vector_store import add_documents, search
 from openai import OpenAI
 import os
 
@@ -12,12 +12,20 @@ def process_pdf(file_path):
 
     chunks = chunk_text(text)
 
+    metadatas = []
+    
+    for i, chunk in enumerate(chunks):
+        metadatas.append({
+            "chunk": i,
+            "document": file_path
+        })
+
     vectors = create_embedding(chunks)
     
-    create_index(vectors, chunks)
+    add_documents(chunks, vectors, metadatas)
 
 def ask_question(question):
-    question_vector = create_embedding(question)
+    question_vector = create_embedding([question])[0]
 
     relevant_chunks = search(question_vector)
 

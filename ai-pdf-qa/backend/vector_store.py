@@ -1,27 +1,18 @@
-import faiss
-import numpy as np
+import chromadb
 
-index = None
-documents = []
+client = chromadb.Client()
 
-def create_index(vectors, chunks):
-    global index
-    global documents
+collection = client.get_or_create_collection(name="documents")
 
-    documents = chunks
+def add_documents(chunks, embeddings, metadatas):
+    ids = []
 
-    dimension = len(vectors[0])
+    for i in range(len(chunks)):
+        ids.append(f"id_{i}")
 
-    index = faiss.IndexFlatL2(dimension)
+    collection.add(documents=chunks, embeddings=embeddings, metadatas=metadatas, ids=ids)
 
-    index.add(np.array(vectors).astype("float32"))
+def search(query_embedding, k=3):
+    results = collection.query(query_embeddings=[query_embedding], n_results=k)
 
-def search(vector, k=3):
-    D, I = index.search(np.array([vector]).astype("float32"), k)
-
-    results = []
-
-    for i in I[0]:
-        results.append(documents[i])
-    
-    return results
+    return results["documents"][0]
