@@ -3,6 +3,7 @@ from text_chunker import chunk_text
 from embeddings import create_embedding
 from vector_store import add_documents, search
 from openai import OpenAI
+from reranker import rerank
 import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -27,9 +28,11 @@ def process_pdf(file_path):
 def ask_question(question):
     question_vector = create_embedding([question])[0]
 
-    relevant_chunks = search(question_vector)
+    retrieved_chunks = search(question_vector, k=10)
 
-    context = "\n".join(relevant_chunks)
+    best_chunks = rerank(question, retrieved_chunks)
+
+    context = "\n".join(best_chunks)
 
     prompt = f"""
     Answer the question using ONLY the context below.

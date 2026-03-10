@@ -2,11 +2,8 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from rag_pipeline import process_pdf, ask_question
-from dotenv import load_dotenv
 import shutil
 import os
-
-load_dotenv()
 
 app = FastAPI()
 UPLOAD_DIR = "uploads"

@@ -3,3 +3,4 @@ aienv
 _pycache_
 .vscode
 uploads
+chroma_db
