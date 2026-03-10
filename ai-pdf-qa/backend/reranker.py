@@ -1,5 +1,6 @@
 from openai import OpenAI
 import os
+import re
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -34,7 +35,8 @@ def rerank(question, chunks):
     )
 
     result = response.choices[0].message.content
-    indexes = [int(i.strip())-1 for i in result.split(",")]
+    numbers = re.findall(r'\d+', result)
+    indexes = [int(n)-1 for n in numbers[:3]]
     best_chunks = [chunks[i] for i in indexes]
 
     return best_chunks
