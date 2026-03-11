@@ -21,6 +21,10 @@ pre {
   font-family: inherit;
 }
 
+input[type="file"] {
+  padding: 0;
+}
+
 pre {
   border: 1px solid gray;
   white-space: pre-wrap;
