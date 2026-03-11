@@ -1,59 +1,69 @@
-**AI Engineer Journey**
+# AI Engineer Journey
 
 Documenting my path from building simple AI apps to more advanced systems.
 
-**Overview**
+Overview
 
-- **Purpose:** Track learning, projects, experiments, and reflections while building AI applications.
-- **Audience:** Future-me, collaborators, and anyone following an applied AI learning path.
+- Purpose: Track learning, projects, experiments, and reflections while building AI applications.
+- Audience: Future-me, collaborators, and anyone following an applied AI learning path.
 
-**Repository Structure**
+Quick environment
 
-- **`ai-chat-app/`**: Single full-stack app containing both backend and frontend:
-- **`aienv/`**: Python virtual environment for the backend.
-
-**Getting Started**
-
-- **Activate Python venv (PowerShell):**
+- Activate Python venv (PowerShell):
 
 ```powershell
 & aienv\Scripts\Activate.ps1
 ```
 
-- **Start backend (from `ai-chat-app/backend/`):**
+Repository structure
+
+- `ai-chat-app/`: A simple ChatGPT-like demo. See [ai-chat-app/README.md](ai-chat-app/README.md) for quick start and details.
+- `ai-text-summarizer/`: A compact backend demo for summarization workflows. See [ai-text-summarizer/README.md](ai-text-summarizer/README.md) for quick start and details.
+- `ai-email-generator/`: AI app for generating emails using prompts and small templating. See [ai-email-generator/README.md](ai-email-generator/README.md) for quick start.
+- `ai-pdf-qa/`: Question-answering over PDFs using embeddings and a RAG pipeline. See [ai-pdf-qa/README.md](ai-pdf-qa/README.md) for quick start.
+- `aienv/`: Local Python virtual environment (venv) used by the backend services. Activate before running Python backends.
+
+Per-project quick start
+
+- General backend pattern (works for most projects):
 
 ```powershell
-cd ai-chat-app/backend
+& aienv\Scripts\Activate.ps1
+cd <project>/backend
 python -m uvicorn main:app --reload
 ```
 
-- **Install and run frontend (from `ai-chat-app/frontend/`):**
+- General frontend pattern (React apps in each project):
 
 ```bash
-cd ai-chat-app/frontend
+cd <project>/frontend
 npm install
 npm start
 ```
 
-**How I'll Use This Repo**
+How I use this repo
 
-- Each project will live in its own folder (backend service, frontend demo, notebooks, etc.).
-- I'll keep short READMEs per project with goals, implementation notes, and lessons learned.
+- Each project keeps a small README that explains purpose, run steps, and relevant files. Check the project README before running it.
+- I keep experiments and notes in the project folders; expect iterative changes and occasional notebooks.
 
-**Roadmap & Learning Goals**
+Contributing
 
-- **Phase 1 — Basics:** Hello-world models, prompt engineering, simple web demos.
-- **Phase 2 — Intermediate:** Small end-to-end apps (API + UI), model fine-tuning, evaluation.
-- **Phase 3 — Advanced:** Multi-component systems, pipelines, deployment, monitoring, efficiency.
+- Open issues or PRs. Small experiments and reproducible examples are welcome.
 
-**Notes & Contributing**
+License
+How I use this repo
 
-- I'll add issues and small tasks as I progress — PRs and suggestions welcome.
+- Each project keeps a small README that explains purpose, run steps, and relevant files. Check the project README before running it.
+- I keep experiments and notes in the project folders; expect iterative changes and occasional notebooks.
 
-**License**
+Contributing
 
-- MIT-style: add a LICENSE file later if desired.
+- Open issues or PRs. Small experiments and reproducible examples are welcome.
+
+License
+
+- MIT-style: add a LICENSE file if you want an explicit license.
 
 ---
 
-_Created to record experiments, code, and lessons while building AI apps._
+Created to record experiments, code, and lessons while building AI apps.
